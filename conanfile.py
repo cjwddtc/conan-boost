@@ -110,7 +110,7 @@ class BoostConan(ConanFile):
             if not self.options.header_only:
                 self.options["zlib"].shared = self.options.shared
 
-    def conan_info(self):
+    def package_id(self):
         """ if it is header only, the requirements, settings and options do not affect the package ID
         so they should be removed, so just 1 package for header only is generated, not one for each
         different compiler and option. This is the last step, after build, and package
@@ -196,10 +196,6 @@ class BoostConan(ConanFile):
 
         # LIBCXX DEFINITION FOR BOOST B2
         try:
-            if str(self.settings.compiler.libcxx) == "libstdc++":
-                flags.append("define=_GLIBCXX_USE_CXX11_ABI=0")
-            elif str(self.settings.compiler.libcxx) == "libstdc++11":
-                flags.append("define=_GLIBCXX_USE_CXX11_ABI=1")
             if "clang" in str(self.settings.compiler):
                 if str(self.settings.compiler.libcxx) == "libc++":
                     cxx_flags.append("-stdlib=libc++")
